@@ -1,0 +1,68 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://scenes/characters/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/camera.gd" type="Script" id=2]
+[ext_resource path="res://scripts/root.gd" type="Script" id=3]
+[ext_resource path="res://scenes/sfx.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/tween.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/wall.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/characters/door.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/weapons/broom.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/characters/enemies/fat_man.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/characters/enemies/tall_man.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/weapons/gun.tscn" type="PackedScene" id=11]
+
+[node name="level" type="Node2D"]
+script = ExtResource( 3 )
+packed_tween = ExtResource( 5 )
+packed_sfx = ExtResource( 4 )
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2( 128, 72 )
+rotating = true
+current = true
+zoom = Vector2( 2, 2 )
+script = ExtResource( 2 )
+camera_target = NodePath("../characters/player")
+
+[node name="characters" type="Node2D" parent="."]
+
+[node name="player" parent="characters" instance=ExtResource( 1 )]
+position = Vector2( 128, 72 )
+
+[node name="enemy" parent="characters" instance=ExtResource( 9 )]
+position = Vector2( 208, 96 )
+
+[node name="enemy2" parent="characters" instance=ExtResource( 10 )]
+position = Vector2( 16, 56 )
+
+[node name="walls" type="Node2D" parent="."]
+
+[node name="wall2" parent="walls" instance=ExtResource( 6 )]
+
+[node name="polygon" type="Polygon2D" parent="walls/wall2"]
+position = Vector2( -32, 0 )
+polygon = PoolVector2Array( 16, 48, 16, 64, 36, 64, 36, 56, 60, 56, 60, 64, 64, 64, 64, 48 )
+
+[node name="wall3" parent="walls" instance=ExtResource( 6 )]
+
+[node name="polygon" type="Polygon2D" parent="walls/wall3"]
+position = Vector2( 176, 20 )
+polygon = PoolVector2Array( 16, 48, 16, 64, 24, 64, 24, 88, 16, 88, 16, 96, 112, 96, 112, 48 )
+
+[node name="door" parent="." instance=ExtResource( 7 )]
+position = Vector2( 16, 60 )
+enemy = NodePath("../characters/enemy2")
+
+[node name="door2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 192, 96 )
+rotation = -1.57079
+enemy = NodePath("../characters/enemy")
+
+[node name="weapons" type="Node2D" parent="."]
+
+[node name="weapon" parent="weapons" instance=ExtResource( 8 )]
+position = Vector2( 64, 96 )
+
+[node name="weapon2" parent="weapons" instance=ExtResource( 11 )]
+position = Vector2( 104, 28 )

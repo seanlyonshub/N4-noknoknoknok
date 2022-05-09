@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/bullet.gd" type="Script" id=2]
+
+[node name="bullet" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="polygon" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( -2, -2, -2, 2, 2, 2, 6, 0, 2, -2 )
+
+[node name="area" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionPolygon2D" parent="area"]
+polygon = PoolVector2Array( -2, 2, -2, -2, 2, -2, 2, 2 )

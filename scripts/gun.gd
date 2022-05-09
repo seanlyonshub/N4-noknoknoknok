@@ -3,8 +3,9 @@ class_name Gun
 
 export (PackedScene) var bullet
 
-export (int) var bullet_speed = 6
-export (int) var fire_rate = 9
+export (float) var bullet_spread = 1
+export (int) var bullet_speed = 3
+export (int) var bullet_amount = 1
 export (int) var ammo = 30
 
 var fire_timer : int
@@ -14,16 +15,19 @@ onready var barrel = get_node("barrel")
 
 func fire() -> void:
 	if !is_firing and ammo > 0:
-		ammo -= 1
-		var weapon_owner = get_parent().get_parent()
-		var new_bullet = bullet.instance()
+		ammo -= bullet_amount
+		weapon_owner = get_parent().get_parent()
 
-		root.add_child(new_bullet)
-		new_bullet.position = barrel.global_position
+		for idx in range(bullet_amount):
+			var new_bullet = bullet.instance()
+			root.add_child(new_bullet)
+			new_bullet.position = barrel.global_position
+			new_bullet.rotation = get_parent().rotation
+			new_bullet.velocity = (weapon_owner.ray.cast_to + weapon_owner.position) - new_bullet.position
+			new_bullet.weapon = self
 
-		new_bullet.velocity = (weapon_owner.ray.cast_to + weapon_owner.position) - new_bullet.position
-		new_bullet.speed = bullet_speed
-		new_bullet.weapon_owner = weapon_owner
+			randomize()
+			new_bullet.velocity = new_bullet.velocity.rotated(rand_range(-0.1 * bullet_spread, 0.1 * bullet_spread))
 		is_firing = true
 
 func _physics_process(_delta: float) -> void:

@@ -4,6 +4,7 @@ export (PackedScene) var packed_tween
 export (PackedScene) var packed_sfx
 
 onready var camera = get_node("camera")
+onready var weapons = get_node("weapons")
 
 func create_tween(node, property: String, from, to, duration, trans_type, ease_type, kills_parent := false) -> void:
 	var new_tween = packed_tween.instance()

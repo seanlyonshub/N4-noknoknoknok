@@ -5,7 +5,3 @@ character scent trails
 pause ui
 score ui
 destructible objects
-shotgun
-  for i in range(5)
-  randomize bullet spread
-use cast_to + position for wep throwing

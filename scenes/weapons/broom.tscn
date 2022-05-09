@@ -11,4 +11,4 @@ knockback = 12
 polygon = PoolVector2Array( -8, 2, -8, -2, 24, -2, 24, 2 )
 
 [node name="polygon" parent="." index="1"]
-polygon = PoolVector2Array( -8, -2, 20, -2, 22, -4, 22, -6, 24, -6, 24, 4, 22, 4, 22, 2, 20, 0, -8, 0 )
+polygon = PoolVector2Array( -8, -2, 20, -2, 24, 0, -8, 0 )

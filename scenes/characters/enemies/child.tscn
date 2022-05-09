@@ -5,15 +5,9 @@
 
 [node name="enemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-speed = 32
+speed = 36
 health = 2
 chase_range = 256
-
-[node name="collision" parent="." index="0"]
-polygon = PoolVector2Array( -2, 2, -2, -18, 2, -18, 2, 2 )
-
-[node name="polygon" parent="." index="1"]
-polygon = PoolVector2Array( 4, -20, 4, 4, -4, 4, -4, -20 )
 
 [node name="state_machine" parent="." index="4"]
 states_folder = "res://scripts/states/enemy/"

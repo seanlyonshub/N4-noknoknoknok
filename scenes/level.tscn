@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/characters/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/camera.gd" type="Script" id=2]
@@ -8,9 +8,11 @@
 [ext_resource path="res://scenes/wall.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/characters/door.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/weapons/broom.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/characters/enemies/fat_man.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/characters/enemies/child.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/characters/enemies/tall_man.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/weapons/gun.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/weapons/revolver.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/weapons/shotgun.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/characters/enemies/fat_man.tscn" type="PackedScene" id=13]
 
 [node name="level" type="Node2D"]
 script = ExtResource( 3 )
@@ -29,40 +31,71 @@ camera_target = NodePath("../characters/player")
 
 [node name="player" parent="characters" instance=ExtResource( 1 )]
 position = Vector2( 128, 72 )
+z_index = 0
 
-[node name="enemy" parent="characters" instance=ExtResource( 9 )]
-position = Vector2( 208, 96 )
+[node name="houses" type="Node2D" parent="."]
 
-[node name="enemy2" parent="characters" instance=ExtResource( 10 )]
-position = Vector2( 16, 56 )
+[node name="house" type="Node2D" parent="houses"]
 
-[node name="walls" type="Node2D" parent="."]
+[node name="door" parent="houses/house" instance=ExtResource( 7 )]
+position = Vector2( 16, 60 )
+z_index = 0
+packed_enemy = ExtResource( 10 )
 
-[node name="wall2" parent="walls" instance=ExtResource( 6 )]
+[node name="wall" parent="houses/house" instance=ExtResource( 6 )]
 
-[node name="polygon" type="Polygon2D" parent="walls/wall2"]
+[node name="polygon" type="Polygon2D" parent="houses/house/wall"]
 position = Vector2( -32, 0 )
 polygon = PoolVector2Array( 16, 48, 16, 64, 36, 64, 36, 56, 60, 56, 60, 64, 64, 64, 64, 48 )
 
-[node name="wall3" parent="walls" instance=ExtResource( 6 )]
+[node name="polygon" type="Polygon2D" parent="houses/house"]
+polygon = PoolVector2Array( -16, 40, -24, 40, -16, 32, 32, 32, 40, 40, 32, 40, 32, 48, -16, 48 )
 
-[node name="polygon" type="Polygon2D" parent="walls/wall3"]
-position = Vector2( 176, 20 )
-polygon = PoolVector2Array( 16, 48, 16, 64, 24, 64, 24, 88, 16, 88, 16, 96, 112, 96, 112, 48 )
+[node name="house2" type="Node2D" parent="houses"]
+position = Vector2( -48, 0 )
 
-[node name="door" parent="." instance=ExtResource( 7 )]
-position = Vector2( 16, 60 )
-enemy = NodePath("../characters/enemy2")
+[node name="door" parent="houses/house2" instance=ExtResource( 7 )]
+position = Vector2( 8, 60 )
+z_index = 0
+packed_enemy = ExtResource( 9 )
 
-[node name="door2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 192, 96 )
-rotation = -1.57079
-enemy = NodePath("../characters/enemy")
+[node name="wall" parent="houses/house2" instance=ExtResource( 6 )]
+
+[node name="polygon" type="Polygon2D" parent="houses/house2/wall"]
+position = Vector2( -32, 0 )
+polygon = PoolVector2Array( 16, 48, 16, 64, 28, 64, 28, 56, 52, 56, 52, 64, 64, 64, 64, 48 )
+
+[node name="polygon" type="Polygon2D" parent="houses/house2"]
+polygon = PoolVector2Array( -16, 24, 8, 12, 32, 24, 32, 48, -16, 48 )
+
+[node name="house3" type="Node2D" parent="houses"]
+position = Vector2( 168, 40 )
+
+[node name="door" parent="houses/house3" instance=ExtResource( 7 )]
+position = Vector2( 8, 60 )
+z_index = 0
+packed_enemy = ExtResource( 13 )
+packed_weapon = ExtResource( 12 )
+
+[node name="wall" parent="houses/house3" instance=ExtResource( 6 )]
+
+[node name="polygon" type="Polygon2D" parent="houses/house3/wall"]
+position = Vector2( -32, 0 )
+polygon = PoolVector2Array( 16, 48, 16, 64, 28, 64, 28, 56, 52, 56, 52, 64, 104, 64, 104, 48 )
+
+[node name="polygon" type="Polygon2D" parent="houses/house3"]
+polygon = PoolVector2Array( 8, 24, 72, 48, -16, 48, -16, 40 )
 
 [node name="weapons" type="Node2D" parent="."]
 
 [node name="weapon" parent="weapons" instance=ExtResource( 8 )]
 position = Vector2( 64, 96 )
+z_index = 0
+
+[node name="weapon3" parent="weapons" instance=ExtResource( 12 )]
+position = Vector2( 256, 8 )
+z_index = 0
 
 [node name="weapon2" parent="weapons" instance=ExtResource( 11 )]
-position = Vector2( 104, 28 )
+position = Vector2( 64, 16 )
+z_index = 0

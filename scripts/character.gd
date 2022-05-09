@@ -4,8 +4,8 @@ class_name Character
 export (int) var speed = 64
 export (int) var health = 4
 
-export (String) var kill_sfx
-export (String) var hurt_sfx
+export (String) var kill_sfx = ""
+export (String) var hurt_sfx = ""
 
 var direction : Vector2
 var velocity : Vector2
@@ -37,11 +37,14 @@ func kill() -> void:
 	if !has_killed:
 		has_killed = true
 
+		if weapon != null:
+			throw()
+
 		if kill_sfx != "":
 			root.create_sfx(kill_sfx)
 		root.shake_screen(2)
+		collision.queue_free()
 		root.create_tween(self, "scale", scale, Vector2(), 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT, true)
-		root.create_tween(collision, "scale", scale, Vector2(), 0.3, Tween.TRANS_LINEAR, Tween.EASE_OUT, true)
 
 		if is_instance_valid(state_machine):
 			state_machine.transition_to(0)
@@ -53,6 +56,7 @@ func hurt(value: int = 1) -> void:
 		health -= value
 		if health > 1:
 			if hurt_sfx != "":
+				print(hurt_sfx)
 				root.create_sfx(hurt_sfx)
 			root.shake_screen(1)
 
@@ -68,13 +72,14 @@ func throw() -> void:
 	root.create_tween(fists, "position", ray.cast_to.normalized() * get_weapon_range(), Vector2(), 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
 
 	fists.remove_child(weapon)
-	root.add_child(weapon)
+	root.weapons.add_child(weapon)
 	weapon.position = fists.global_position
 	weapon.rotation = fists.rotation
 	weapon = null
 
 func attack() -> void:
-	root.create_tween(fists, "position", ray.cast_to.normalized() * get_weapon_range(), Vector2(), 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
+	if !is_attacking:
+		root.create_tween(fists, "position", ray.cast_to.normalized() * get_weapon_range(), Vector2(), 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
 
 	if weapon != null:
 		if weapon is Gun:
@@ -115,6 +120,7 @@ func check_weapon_area() -> void:
 					if area_parent is Weapon:
 						area_parent.get_parent().remove_child(area_parent)
 						fists.add_child(area_parent)
+						area_parent.root = root
 						area_parent.position = Vector2.ZERO
 						area_parent.rotation = 0
 						weapon = area_parent
@@ -137,6 +143,12 @@ func get_weapon_range() -> int:
 
 	return weapon.weapon_range
 
+func get_weapon_fire_rate() -> int:
+	if weapon == null:
+		return 15
+
+	return weapon.fire_rate
+
 func _physics_process(_delta: float) -> void:
 	direction = velocity.normalized().round()
 	velocity = direction * speed
@@ -157,7 +169,7 @@ func _physics_process(_delta: float) -> void:
 	if is_attacking:
 		check_weapon_area()
 		attack_frames += 1
-		if attack_frames % 15 == 0:
+		if attack_frames % get_weapon_fire_rate() == 0:
 			is_attacking = false
 
 	if is_grabbing:

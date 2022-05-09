@@ -8,7 +8,7 @@ script = ExtResource( 2 )
 health = 1
 
 [node name="collision" parent="." index="0"]
-polygon = PoolVector2Array( -8, 4, -8, 0, 8, 0, 8, 4 )
+polygon = PoolVector2Array( -10, 4, -10, 0, -8, -2, 8, -2, 10, 0, 10, 4, 8, 6, -8, 6 )
 
 [node name="polygon" parent="." index="1"]
 polygon = PoolVector2Array( -8, 0, 8, 0, 8, 4, -8, 4 )

@@ -20,5 +20,4 @@ func get_player():
 
 func _physics_process(delta: float) -> void:
 	if is_instance_valid(target):
-		ray.cast_to = target.position - position
 		fists.look_at(target.position)

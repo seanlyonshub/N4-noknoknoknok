@@ -5,12 +5,11 @@
 
 [node name="enemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-speed = 32
 health = 2
 chase_range = 256
 
 [node name="collision" parent="." index="0"]
-polygon = PoolVector2Array( -2, 2, -2, -18, 2, -18, 2, 2 )
+polygon = PoolVector2Array( 0, 8, -4, 0, 0, -16, 4, 0 )
 
 [node name="polygon" parent="." index="1"]
 polygon = PoolVector2Array( 4, -20, 4, 4, -4, 4, -4, -20 )

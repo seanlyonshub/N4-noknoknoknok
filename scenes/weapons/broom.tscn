@@ -5,7 +5,8 @@
 [node name="weapon" instance=ExtResource( 1 )]
 damage = 0
 weapon_range = 32
-knockback = 12
+knockback = 8
+fire_rate = 40
 
 [node name="collision" parent="area" index="0"]
 polygon = PoolVector2Array( -8, 2, -8, -2, 24, -2, 24, 2 )

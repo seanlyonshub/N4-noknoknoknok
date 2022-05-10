@@ -54,7 +54,7 @@ func hurt(value: int = 1) -> void:
 	if !just_hurt:
 		just_hurt = true
 		health -= value
-		if health > 1:
+		if health > 0:
 			if hurt_sfx != "":
 				print(hurt_sfx)
 				root.create_sfx(hurt_sfx)
@@ -64,7 +64,9 @@ func hurt(value: int = 1) -> void:
 			kill()
 
 func grab() -> void:
-	root.create_tween(fists, "position", ray.cast_to.normalized() * get_weapon_range(), Vector2(), 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
+	if !is_grabbing:
+		root.create_tween(fists, "position", ray.cast_to.normalized() * get_weapon_range(), Vector2(), 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
+		root.create_tween(fists, "scale", Vector2.ONE * 2, Vector2.ONE, 0.6, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
 
 	is_grabbing = true
 
@@ -89,8 +91,8 @@ func attack() -> void:
 
 func knockback(body, weapon_knockback) -> void:
 	root.create_tween(polygon, "rotation_degrees", 30 * last_x_direction, rotation_degrees, 0.6, Tween.TRANS_CUBIC, Tween.EASE_OUT, false)
-	root.create_tween(self, "velocity", position - body.position, Vector2(), 0.6, Tween.TRANS_CUBIC, Tween.EASE_OUT, false)
-	root.create_tween(self, "speed", speed * weapon_knockback, init_speed, 0.3, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
+	root.create_tween(self, "velocity", position - body.position, Vector2(), 0.3, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
+	root.create_tween(self, "speed", 32 * weapon_knockback, init_speed, 0.3, Tween.TRANS_BOUNCE, Tween.EASE_OUT, false)
 
 func check_weapon_area() -> void:
 	if is_attacking:
@@ -102,9 +104,10 @@ func check_weapon_area() -> void:
 						body.knockback(self, get_weapon_knockback())
 
 					if weapon == null or weapon.damage == 0:
-						body.hurt(0)
-						if body.has_method("spawn_character"):
+						if body.has_method("spawn_enemy"):
 							body.hurt()
+
+						body.hurt(0)
 
 					else:
 						body.hurt(weapon.damage)
@@ -116,13 +119,16 @@ func check_weapon_area() -> void:
 		if weapon == null:
 			if !get_weapon_area().get_overlapping_areas().empty():
 				var area_parent = get_weapon_area().get_overlapping_areas()[0].get_parent()
+				ray.cast_to = area_parent.position - position
+				ray.force_raycast_update()
 				if !ray.is_colliding():
-					if area_parent is Weapon:
+					if area_parent is Weapon and area_parent.get_parent() == root.weapons:
 						area_parent.get_parent().remove_child(area_parent)
 						fists.add_child(area_parent)
 						area_parent.root = root
 						area_parent.position = Vector2.ZERO
 						area_parent.rotation = 0
+						area_parent.weapon_owner = self
 						weapon = area_parent
 
 func get_weapon_knockback() -> int:

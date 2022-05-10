@@ -1,6 +1,8 @@
 extends Character
 class_name Player
 
+onready var scent_trail = get_node("scent_trail")
+
 func get_input_x() -> float:
 	var input_x : float
 

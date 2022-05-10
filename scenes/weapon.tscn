@@ -5,6 +5,7 @@
 [node name="weapon" type="Node2D"]
 z_index = 2
 script = ExtResource( 1 )
+knockback = 2
 
 [node name="area" type="Area2D" parent="."]
 

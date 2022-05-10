@@ -8,12 +8,11 @@
 script = ExtResource( 3 )
 damage = 0
 weapon_range = 8
-knockback = 8
+knockback = 4
 fire_rate = 40
 bullet = ExtResource( 2 )
 bullet_spread = 4.0
 bullet_amount = 4
-ammo = 24
 
 [node name="collision" parent="area" index="0"]
 polygon = PoolVector2Array( -8, 2, -8, -2, 22, -2, 22, 2 )

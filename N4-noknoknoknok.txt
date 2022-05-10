@@ -1,7 +1,6 @@
   nocnocnoc todo list
-a house scene that combines walls, doors and purely decorative polygons
 grayscale -> palette shader
-character scent trails
 pause ui
 score ui
 destructible objects
+shield that reflects projectiles

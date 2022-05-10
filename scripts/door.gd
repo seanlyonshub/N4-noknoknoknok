@@ -21,5 +21,6 @@ func spawn_enemy() -> void:
 		var new_weapon = packed_weapon.instance()
 
 		new_enemy.fists.add_child(new_weapon)
+		new_weapon.root = root
+		new_weapon.weapon_owner = new_enemy
 		new_enemy.weapon = new_weapon
-		#new_weapon.position = new_enemy.fists.position

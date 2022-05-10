@@ -5,7 +5,7 @@
 
 [node name="enemy" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-speed = 36
+speed = 80
 health = 2
 chase_range = 256
 
